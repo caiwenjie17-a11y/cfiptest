@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 
 # Cloudflare IP 优选工具
@@ -796,3 +797,7 @@ git branch -M $(git remote show origin | grep "HEAD branch" | cut -d " " -f5) 2>
 **许可证**：本项目采用 [MIT License](https://opensource.org/licenses/MIT) 开源。
 
 ---
+=======
+# cfiptest
+这是一个全自动的 Cloudflare CDN 节点优选工具
+>>>>>>> tmp_main
