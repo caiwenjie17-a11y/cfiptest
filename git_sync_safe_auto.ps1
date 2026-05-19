@@ -1,5 +1,12 @@
-# 自动安全同步本地文件到 GitHub，冲突自动保留远程版本
-Write-Host "Starting fully automated safe sync to GitHub..."
+# 自动安全同步本地文件到 GitHub（使用 SSH），冲突自动保留远程版本
+Write-Host "Starting fully automated safe sync to GitHub via SSH..."
+
+# 确认远程仓库是 SSH 地址
+$remoteUrl = git remote get-url origin
+if ($remoteUrl -notmatch "^git@github\.com:") {
+    Write-Host "Changing remote URL to SSH..."
+    git remote set-url origin git@github.com:caiwenjie17-a11y/cfiptest.git
+}
 
 # 1. 获取远程 main 分支到本地临时分支 tmp_main
 git fetch origin main:tmp_main
@@ -18,7 +25,7 @@ if ($LASTEXITCODE -ne 0) {
 # 3. 合并远程 tmp_main 分支，允许历史不相关，并自动保留远程文件
 git merge tmp_main --allow-unrelated-histories -X theirs
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Merge completed with remote version automatically preferred for conflicts."
+    Write-Host "Merge completed. Remote files preferred for conflicts."
 }
 
 # 4. 添加所有更改（包括新文件）
@@ -30,9 +37,9 @@ git commit -m "Merge local files with remote main (remote files preferred)" 2>$n
 # 6. 推送本地 master 到远程 main
 git push origin master:main
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ Local files have been fully synced to GitHub main branch!"
+    Write-Host "✅ Local files have been fully synced to GitHub main branch via SSH!"
 } else {
-    Write-Host "❌ Push failed. Please check network or permissions."
+    Write-Host "❌ Push failed. Please check your SSH keys or GitHub access."
 }
 
 # 7. 删除临时分支
