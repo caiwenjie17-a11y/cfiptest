@@ -905,7 +905,7 @@ def sync_to_github():
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
     if sys.platform == "win32":
-        script_name = "git_sync.ps1"
+        script_name = "git_sync_safe_auto.ps1"
         interpreter = ["powershell", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File"]
         creationflags = subprocess.CREATE_NO_WINDOW
     else:
